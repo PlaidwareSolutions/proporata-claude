@@ -1,0 +1,62 @@
+1. Governance & board calendar (board-facing)
+Board meetings — regular, special, executive, and annual meetings (already covered by Task #65 Meetings).
+Committee meetings — ACC (Architectural Control), Landscape, Social, Finance — each as its own sub-calendar with its own roster.
+Open motion deadlines — async motion close-times appear on the calendar so the board sees what they need to vote on by when (Task #62 motions).
+Resolution & policy effective dates — when an adopted resolution or policy change takes effect.
+Notice-window markers — show "Earliest legal meeting date" relative to a draft notice posting, and flag any meeting scheduled inside the required notice window.
+Officer term start/end dates — visualize who's on the board at any historical date (Task #67 officers/terms).
+Election & nomination windows — nomination open, nomination close, ballot mailing, election day.
+2. Operational calendar (manager/admin-facing)
+Recurring vendor service — landscaping, pool service, pest control, trash, gate maintenance, fire-system inspection. Shown as recurring events with the assigned vendor and current contract.
+Scheduled work orders — a work order's "scheduled for" date plops onto the calendar; status updates (in progress, completed) reflect in real-time.
+Bid windows — bid open, bid close, decision deadline, board-vote deadline (ties into the bid system from Task #55).
+Inspections — annual community walkthroughs, ACC compliance sweeps, insurance inspection, reserve study site visit.
+Compliance reminders — annual report filing, franchise tax due date, registered-agent renewal, insurance renewal, audit due, reserve-study refresh, 1099 filings.
+Vendor certificate expirations — COI (certificate of insurance), W-9, license — auto-events 30/60/90 days before expiry.
+Permit & easement deadlines — city/county permits with inspection dates.
+3. Financial calendar (treasurer-facing)
+Dues cycles — assessment due dates (monthly/quarterly/annual), grace-period end, late-fee trigger, lien-eligible date.
+Special assessment milestones — vote, owner notice posted, billing date, payment due, follow-up reminders.
+Collections schedule — friendly reminder, demand letter, lien filing, attorney referral — automatic at fixed offsets per delinquent owner.
+Budget cycle — draft due, board review, owner notice, ratification meeting, fiscal year start.
+Reserve contributions & projects — when a planned reserve project is scheduled and when its draw against reserves hits.
+Bank reconciliations & financial reports — month-end close, monthly financials published, quarterly review.
+Tax & audit deadlines — federal/state filings, audit fieldwork window.
+4. Community calendar (owner-facing)
+Community events — pool opening, holiday party, garage-sale day, food truck nights, board-meet-the-neighbors.
+Amenity availability — pool open/closed dates, gate-code change days, scheduled outages (water shutoff, road closure, tree-trimming day).
+Trash & bulk pickup — weekly schedule plus city bulk-pickup, recycling days, holiday schedule shifts.
+School-year and city events that affect the neighborhood (Stafford ISD start, July 4 fireworks, hurricane-season prep).
+Architectural review windows — when an ACC application was submitted and its decision deadline (so owners see the clock).
+Owner notices & required postings — annual meeting notice, dues change notice, rule change notice — each with the date posted and a countdown to legal effective date.
+5. Amenity reservations (owner-bookable)
+Clubhouse / community room bookings — owner picks a slot, sees existing bookings, pays a deposit, signs an electronic reservation agreement.
+Pool party reservations with capacity caps and lifeguard scheduling if applicable.
+Tennis/pickleball court sign-ups in 1-hour blocks.
+Guest parking permits — request a date range, system tracks number of nights used.
+Move-in / move-out elevator or gate reservation (more relevant for condos but some townhome HOAs do this).
+Pavilion / picnic area reservations.
+Configurable rules per amenity: max bookings per owner per month, blackout dates, deposit, cancellation window.
+6. Maintenance & lifecycle calendar (asset-driven)
+Building / common-area lifecycle — roof inspection, paint cycle, fence repair, parking-lot reseal, drainage cleanout. Driven by the reserve study; events auto-generated from the schedule of expected useful lives.
+Equipment service intervals — pool pumps, gate openers, irrigation controllers, HVAC in clubhouse — with last-serviced date, next-due date, and assigned vendor.
+Seasonal tasks — irrigation winterization, hurricane-season prep checklist, holiday-decor install/remove.
+7. Compliance & cure timers
+Violation cure deadlines — per-violation countdowns: cure-by date, hearing date, fine effective date, lien-eligible date. Each visible on the calendar for the manager and on a private timeline for the owner.
+ACC application deadlines — submitted, info-requested, decision-by date, appeal window.
+Hearing schedule — owner hearings before the board for fines, suspensions, or appeals.
+8. Cross-cutting calendar features
+Multiple sub-calendars with toggles — Board, Committees, Operations, Financial, Community, Amenities, Compliance — each color-coded; users hide/show what's relevant.
+Per-role default views — owners see Community + Amenities + Notices by default; managers see Operations + Financial + Compliance; board members see Governance.
+Subscribable iCal feeds (.ics) per sub-calendar so users can mirror to Google/Apple/Outlook. Includes a per-user secret token URL.
+External calendar import — manager can subscribe to the City of Stafford's holiday/trash calendar and overlay it.
+Reminders — configurable per event type, in-app + email + optional SMS, at fixed offsets (24h, 7d, 30d before).
+Recurring rules with exceptions ("first Tuesday monthly except December", "skip July 4").
+Time zones & DST — single time-zone (America/Chicago) but DST-safe.
+Print / PDF export — month-at-a-glance for the bulletin board.
+Audit history per event — who created/edited/cancelled it.
+Search across all event types.
+Attachments on any event (agenda, vendor contract, flyer).
+Owner RSVP / headcount for community events with a cap.
+ICS email invites so owners adding events get them straight into their personal calendar.
+Public web view (signed link) so owners without portal accounts can still see community events.

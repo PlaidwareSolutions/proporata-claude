@@ -1,0 +1,124 @@
+2026-05-03 04:47:17.47
+a8f3a57b
+System
+artifact mode enabled runnable=1 static=1
+2026-05-03 04:47:17.47
+a8f3a57b
+System
+metasidecar: loaded enterprise status from environment is_enterprise=false
+2026-05-03 04:47:17.47
+a8f3a57b
+System
+waiting for runnable artifact ports ports=[8080]
+2026-05-03 04:47:17.47
+a8f3a57b
+System
+registered static handler for artifact path=/ publicDir=artifacts/hoa-hub/dist/public
+2026-05-03 04:47:17.47
+a8f3a57b
+System
+starting artifact processes for monorepo deployment
+2026-05-03 04:47:17.47
+a8f3a57b
+System
+forwarding local port 0 to external port 80 (mapped as 1104)
+2026-05-03 04:47:17.47
+a8f3a57b
+System
+baseline ports snapshot before artifact start ports=[1105 1106]
+2026-05-03 04:47:17.48
+a8f3a57b
+System
+starting artifact process port=8080 artifact=artifacts/api-server args=[node --enable-source-maps artifacts/api-server/dist/index.mjs]
+2026-05-03 04:47:17.48
+a8f3a57b
+System
+starting artifact processes count=1
+2026-05-03 04:47:17.51
+a8f3a57b
+System
+artifact process started pid=16 artifact=artifacts/api-server
+2026-05-03 04:47:24.00
+a8f3a57b
+System
+all artifact ports detected
+2026-05-03 04:47:24.00
+a8f3a57b
+System
+artifact processes running, waiting for signal or process exit
+2026-05-03 04:47:24.00
+a8f3a57b
+User
+{"level":30,"time":1777801644006,"pid":16,"hostname":"localhost","port":8080,"msg":"Server listening"}
+2026-05-03 04:47:24.02
+a8f3a57b
+User
+To prepare for this change:
+2026-05-03 04:47:24.02
+a8f3a57b
+User
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+2026-05-03 04:47:24.02
+a8f3a57b
+User
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-05-03 04:47:24.02
+a8f3a57b
+User
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+2026-05-03 04:47:24.02
+a8f3a57b
+User
+(node:16) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+2026-05-03 04:47:24.02
+a8f3a57b
+User
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644009,"pid":16,"hostname":"localhost","msg":"ACC auto-approval scheduler started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644010,"pid":16,"hostname":"localhost","msg":"motionScheduler started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644010,"pid":16,"hostname":"localhost","scheduler":"motion","msg":"scheduler motion started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644010,"pid":16,"hostname":"localhost","scheduler":"bid","msg":"scheduler bid started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644010,"pid":16,"hostname":"localhost","msg":"Bid scheduler started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644009,"pid":16,"hostname":"localhost","scheduler":"ocr","msg":"scheduler ocr started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644008,"pid":16,"hostname":"localhost","msg":"Insurance expiry scheduler started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644009,"pid":16,"hostname":"localhost","msg":"OCR scheduler started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644009,"pid":16,"hostname":"localhost","scheduler":"acc","msg":"scheduler acc started"}
+2026-05-03 04:47:24.03
+a8f3a57b
+User
+{"level":30,"time":1777801644008,"pid":16,"hostname":"localhost","scheduler":"insurance","msg":"scheduler insurance started"}
+
+Collapse
+
+Wrap
+
+Colors
+
+L

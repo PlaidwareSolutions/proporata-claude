@@ -1,0 +1,60 @@
+modules = ["nodejs-24", "python-3.11", "postgresql-16"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 120000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
+localPort = 8081
+externalPort = 80
+
+[[ports]]
+localPort = 8082
+externalPort = 3002
+
+[[ports]]
+localPort = 8083
+externalPort = 5173
+
+[[ports]]
+localPort = 9998
+externalPort = 3003
+
+[[ports]]
+localPort = 9999
+externalPort = 3000
+
+[[ports]]
+localPort = 22783
+externalPort = 3001
+
+[[ports]]
+localPort = 29998
+externalPort = 4200
+
+[userenv]
+
+[userenv.shared]
+GOOGLE_REDIRECT_URI = "https://f39cb8dc-4b45-41f3-aa10-0f3a5a1d6436-00-3bhxv1djook9-19tq94c7.spock.replit.dev/api/integrations/google-drive/callback"
+
+[nix]
+channel = "stable-25_05"

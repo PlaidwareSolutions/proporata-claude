@@ -1,0 +1,278 @@
+  /charging/ports:
+    get:
+      operationId: listChargingPorts
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ChargingPort" }
+    post:
+      operationId: createChargingPort
+      tags: [charging]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateChargingPortBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingPort" }
+
+  /charging/ports/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    patch:
+      operationId: updateChargingPort
+      tags: [charging]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateChargingPortBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingPort" }
+    delete:
+      operationId: deleteChargingPort
+      tags: [charging]
+      responses:
+        "204": { description: Deleted }
+
+  /charging/ports/{id}/status:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    get:
+      operationId: getChargingPortStatus
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingPortStatus" }
+
+  /charging/ports/{id}/availability:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+      - in: query
+        name: from
+        required: true
+        schema: { type: string }
+      - in: query
+        name: to
+        required: true
+        schema: { type: string }
+    get:
+      operationId: getChargingPortAvailability
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  portId: { type: integer }
+                  reservations:
+                    type: array
+                    items: { $ref: "#/components/schemas/ChargingReservation" }
+                required: [portId, reservations]
+
+  /charging/ports/{id}/reservations:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    post:
+      operationId: createChargingReservation
+      tags: [charging]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateChargingReservationBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingReservation" }
+
+  /charging/reservations/me:
+    get:
+      operationId: listMyChargingReservations
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ChargingReservation" }
+
+  /charging/reservations/{id}/cancel:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    post:
+      operationId: cancelChargingReservation
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingReservation" }
+
+  /charging/ports/{id}/sessions:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    post:
+      operationId: startChargingSession
+      tags: [charging]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StartChargingSessionBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingSession" }
+
+  /charging/sessions:
+    get:
+      operationId: listChargingSessions
+      tags: [charging]
+      parameters:
+        - in: query
+          name: status
+          required: false
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ChargingSession" }
+
+  /charging/sessions/me:
+    get:
+      operationId: listMyChargingSessions
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ChargingSession" }
+
+  /charging/sessions/me.csv:
+    get:
+      operationId: exportMyChargingSessionsCsv
+      tags: [charging]
+      responses:
+        "200":
+          description: CSV
+          content:
+            text/csv:
+              schema: { type: string }
+
+  /charging/sessions/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    get:
+      operationId: getChargingSession
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingSessionDetail" }
+
+  /charging/sessions/{id}/stop:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    post:
+      operationId: stopChargingSession
+      tags: [charging]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingSession" }
+
+  /charging/sessions/{id}/meter-start:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    post:
+      operationId: recordChargingMeterStart
+      tags: [charging]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                meterStartKwh: { type: number }
+              required: [meterStartKwh]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ChargingSession" }
+
+  /charging/sessions/{id}/manual-readings:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    post:
+      operationId: recordChargingManualReadings

@@ -1,0 +1,829 @@
+  /amenities/{slug}/access-provider:
+    get:
+      operationId: getAmenityAccessProvider
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AmenityAccessProvider"
+                  - { type: "null" }
+    put:
+      operationId: setAmenityAccessProvider
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateAmenityAccessProviderBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AmenityAccessProvider" }
+
+  /amenities/{slug}/access-provider/test:
+    post:
+      operationId: testAmenityAccessProvider
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AmenityAccessProviderTestResult" }
+
+  /amenity-bookings/{id}/access-code:
+    get:
+      operationId: getAmenityAccessCode
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AmenityAccessCode" }
+
+  /amenity-bookings/{id}/access-code/reissue:
+    post:
+      operationId: reissueAmenityAccessCode
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AmenityAccessCode" }
+
+  /amenity-access/validate:
+    post:
+      operationId: validateAmenityAccess
+      tags: [amenityAccess]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code: { type: string }
+                token: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AmenityAccessValidationResult" }
+
+  /amenity-access/audit:
+    get:
+      operationId: listAmenityAccessAudit
+      tags: [amenityAccess]
+      parameters:
+        - in: query
+          name: limit
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/AmenityAccessAudit" }
+
+  /fobs:
+    get:
+      operationId: listFobs
+      tags: [amenityAccess]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/FobInventoryItem" }
+    post:
+      operationId: createFob
+      tags: [amenityAccess]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateFobBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FobInventoryItem" }
+
+  /fobs/{id}:
+    patch:
+      operationId: updateFob
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateFobBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FobInventoryItem" }
+
+  /fobs/{id}/assign:
+    post:
+      operationId: assignFob
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AssignFobBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FobAssignment" }
+
+  /fobs/{id}/return:
+    post:
+      operationId: returnFob
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note: { type: string }
+      responses:
+        "204": { description: Returned }
+
+  /fobs/{id}/history:
+    get:
+      operationId: getFobHistory
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/FobAssignment" }
+
+  /pool-tags:
+    get:
+      operationId: listPoolTags
+      tags: [amenityAccess]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/PoolTag" }
+    post:
+      operationId: createPoolTag
+      tags: [amenityAccess]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreatePoolTagBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PoolTag" }
+
+  /pool-tags/me:
+    get:
+      operationId: listMyPoolTags
+      tags: [amenityAccess]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/PoolTag" }
+
+  /pool-tags/{id}:
+    patch:
+      operationId: updatePoolTag
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdatePoolTagBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PoolTag" }
+
+  /pool-tags/{id}/suspend:
+    post:
+      operationId: suspendPoolTag
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PoolTag" }
+
+  /pool-tags/{id}/restore:
+    post:
+      operationId: restorePoolTag
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PoolTag" }
+
+  /units/me/vehicles:
+    get:
+      operationId: listMyUnitVehicles
+      tags: [amenityAccess]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/UnitVehicle" }
+
+  /units/{unitId}/vehicles:
+    get:
+      operationId: listUnitVehicles
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: unitId
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/UnitVehicle" }
+    post:
+      operationId: createUnitVehicle
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: unitId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateUnitVehicleBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/UnitVehicle" }
+
+  /unit-vehicles/{id}:
+    patch:
+      operationId: updateUnitVehicle
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateUnitVehicleBody" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/UnitVehicle" }
+    delete:
+      operationId: deleteUnitVehicle
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Deleted }
+
+  /amenity-bookings/{id}/guests:
+    get:
+      operationId: listBookingGuestPasses
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/BookingGuestPass" }
+    post:
+      operationId: createBookingGuestPass
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateBookingGuestPassBody" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BookingGuestPass" }
+
+  /amenity-bookings/{bookingId}/guests/{id}:
+    delete:
+      operationId: deleteBookingGuestPass
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: bookingId
+          required: true
+          schema: { type: integer }
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "204": { description: Deleted }
+
+  /amenity-bookings/{bookingId}/guests/{id}/check-in:
+    post:
+      operationId: checkInBookingGuestPass
+      tags: [amenityAccess]
+      parameters:
+        - in: path
+          name: bookingId
+          required: true
+          schema: { type: integer }
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BookingGuestPass" }
+
+  /patrol/lookup:
+    get:
+      operationId: patrolLookup
+      tags: [amenityAccess]
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PatrolLookupResult" }
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: auth_token
+
+  schemas:
+    AmenityRules:
+      type: object
+      properties:
+        hoursByWeekday:
+          type: array
+          nullable: true
+          items:
+            type: object
+            nullable: true
+            properties:
+              open: { type: string }
+              close: { type: string }
+        blockHours: { type: integer }
+        minLeadMinutes: { type: integer }
+        maxLeadDays: { type: integer }
+        monthlyCapPerOwner: { type: integer }
+        cancelWindowHours: { type: integer }
+        guestParkingNightlyCap: { type: integer }
+        requiresLifeguard: { type: boolean }
+
+    Amenity:
+      type: object
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        name: { type: string }
+        description: { type: string }
+        photoUrl: { type: string, nullable: true }
+        capacity: { type: integer }
+        bookingUnit:
+          type: string
+          enum: [whole_day, hourly, block, overnight]
+        depositCents: { type: integer }
+        rules: { $ref: "#/components/schemas/AmenityRules" }
+        agreementText: { type: string }
+        enabled: { type: boolean }
+        sortOrder: { type: integer }
+      required: [id, slug, name, description, capacity, bookingUnit, depositCents, rules, agreementText, enabled, sortOrder]
+
+    UpdateAmenityBody:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        photoUrl: { type: string, nullable: true }
+        capacity: { type: integer }
+        bookingUnit: { type: string }
+        depositCents: { type: integer }
+        rules: { $ref: "#/components/schemas/AmenityRules" }
+        agreementText: { type: string }
+        enabled: { type: boolean }
+        sortOrder: { type: integer }
+
+    AmenityBlackout:
+      type: object
+      properties:
+        id: { type: integer }
+        amenityId: { type: integer }
+        startsAt: { type: string }
+        endsAt: { type: string }
+        reason: { type: string }
+        createdByUserId: { type: integer, nullable: true }
+        createdAt: { type: string }
+      required: [id, amenityId, startsAt, endsAt, reason, createdAt]
+
+    CreateAmenityBlackoutBody:
+      type: object
+      properties:
+        startsAt: { type: string }
+        endsAt: { type: string }
+        reason: { type: string }
+      required: [startsAt, endsAt]
+
+    AmenityLifeguardWindow:
+      type: object
+      properties:
+        id: { type: integer }
+        amenityId: { type: integer }
+        startsAt: { type: string }
+        endsAt: { type: string }
+        staffName: { type: string }
+        createdByUserId: { type: integer, nullable: true }
+        createdAt: { type: string }
+      required: [id, amenityId, startsAt, endsAt, staffName, createdAt]
+
+    CreateAmenityLifeguardWindowBody:
+      type: object
+      properties:
+        startsAt: { type: string }
+        endsAt: { type: string }
+        staffName: { type: string }
+      required: [startsAt, endsAt]
+
+    AmenityAvailabilityBookingSlot:
+      type: object
+      properties:
+        id: { type: integer }
+        startsAt: { type: string }
+        endsAt: { type: string }
+        status: { type: string }
+        mine: { type: boolean }
+        label: { type: string, nullable: true }
+      required: [id, startsAt, endsAt, status, mine]
+
+    AmenityAvailability:
+      type: object
+      properties:
+        amenity: { $ref: "#/components/schemas/Amenity" }
+        bookings:
+          type: array
+          items: { $ref: "#/components/schemas/AmenityAvailabilityBookingSlot" }
+        blackouts:
+          type: array
+          items: { $ref: "#/components/schemas/AmenityBlackout" }
+        lifeguardWindows:
+          type: array
+          items: { $ref: "#/components/schemas/AmenityLifeguardWindow" }
+      required: [amenity, bookings, blackouts, lifeguardWindows]
+
+    AmenityBooking:
+      type: object
+      properties:
+        id: { type: integer }
+        amenityId: { type: integer }
+        amenitySlug: { type: string, nullable: true }
+        amenityName: { type: string, nullable: true }
+        ownerUserId: { type: integer }
+        ownerName: { type: string, nullable: true }
+        unitId: { type: string, nullable: true }
+        startsAt: { type: string }
+        endsAt: { type: string }
+        guestCount: { type: integer }
+        purpose: { type: string }
+        status:
+          type: string
+          enum: [pending_payment, confirmed, used, cancelled, forfeited, refunded]
+        depositCents: { type: integer }
+        depositPaidAt: { type: string, nullable: true }
+        depositRefundedAt: { type: string, nullable: true }
+        agreementSigned: { type: boolean }
+        agreementSignedAt: { type: string, nullable: true }
+        agreementSignedName: { type: string }
+        lifeguardRequested: { type: boolean }
+        permitNumber: { type: string, nullable: true }
+        calendarEventId: { type: integer, nullable: true }
+        managerNotes: { type: string }
+        cancelledAt: { type: string, nullable: true }
+        cancellationReason: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+      required: [id, amenityId, ownerUserId, startsAt, endsAt, guestCount, purpose, status, depositCents, agreementSigned, agreementSignedName, lifeguardRequested, managerNotes, cancellationReason, createdAt, updatedAt]
+
+    CreateAmenityBookingBody:
+      type: object
+      properties:
+        startsAt: { type: string }
+        endsAt: { type: string }
+        guestCount: { type: integer }
+        purpose: { type: string }
+        agreementSigned: { type: boolean }
+        agreementSignedName: { type: string }
+        lifeguardRequested: { type: boolean }
+        ownerUserId: { type: integer }
+        unitId: { type: string }
+      required: [startsAt, endsAt, agreementSigned, agreementSignedName]
+
+    UpdateAmenityBookingBody:
+      type: object
+      properties:
+        startsAt: { type: string }
+        endsAt: { type: string }
+        guestCount: { type: integer }
+        purpose: { type: string }
+        managerNotes: { type: string }
+
+    AmenityBookingAudit:
+      type: object
+      properties:
+        id: { type: integer }
+        bookingId: { type: integer }
+        action: { type: string }
+        actorUserId: { type: integer, nullable: true }
+        actorName: { type: string }
+        diff: {}
+        createdAt: { type: string }
+      required: [id, bookingId, action, actorName, createdAt]
+
+    AmenityAccessProvider:
+      type: object
+      properties:
+        id: { type: integer }
+        amenityId: { type: integer }
+        kind: { type: string, enum: [virtual_lock, stub_http] }
+        baseUrlEnvVar: { type: string }
+        apiKeyEnvVar: { type: string }
+        deviceId: { type: string }
+        codeFormat: { type: string, enum: [pin, qr] }
+        config: {}
+        updatedAt: { type: string }
+      required: [id, amenityId, kind, codeFormat]
+
+    UpdateAmenityAccessProviderBody:
+      type: object
+      properties:
+        kind: { type: string, enum: [virtual_lock, stub_http] }
+        baseUrlEnvVar: { type: string }
+        apiKeyEnvVar: { type: string }
+        deviceId: { type: string }
+        codeFormat: { type: string, enum: [pin, qr] }
+        config: {}
+      required: [kind, codeFormat]
+
+    AmenityAccessProviderTestResult:
+      type: object
+      properties:
+        ok: { type: boolean }
+        message: { type: string }
+      required: [ok, message]
+
+    AmenityAccessCode:
+      type: object
+      properties:
+        id: { type: integer }
+        bookingId: { type: integer }
+        amenityId: { type: integer }
+        code: { type: string }
+        token: { type: string }
+        qrSvg: { type: string }
+        validFrom: { type: string }
+        validUntil: { type: string }
+        revokedAt: { type: string, nullable: true }
+        revokedReason: { type: string }
+        providerKind: { type: string }
+      required: [id, bookingId, amenityId, code, token, validFrom, validUntil]
+
+    AmenityAccessValidationResult:
+      type: object
+      properties:
+        ok: { type: boolean }
+        reason: { type: string }
+        bookingId: { type: integer, nullable: true }
+        amenityId: { type: integer, nullable: true }
+        amenityName: { type: string }
+        ownerName: { type: string }
+        unitId: { type: string, nullable: true }
+        validFrom: { type: string }
+        validUntil: { type: string }
+        guestCount: { type: integer }
+      required: [ok, reason]
+
+    AmenityAccessAudit:
+      type: object
+      properties:
+        id: { type: integer }
+        amenityId: { type: integer, nullable: true }
+        bookingId: { type: integer, nullable: true }
+        accessCodeId: { type: integer, nullable: true }
+        action: { type: string }
+        actorUserId: { type: integer, nullable: true }
+        actorName: { type: string }
+        success: { type: boolean }
+        message: { type: string }
+        createdAt: { type: string }
+      required: [id, action, actorName, success, createdAt]
+
+    FobInventoryItem:
+      type: object
+      properties:
+        id: { type: integer }
+        serial: { type: string }
+        label: { type: string }
+        status: { type: string, enum: [available, assigned, lost, retired] }
+        notes: { type: string }
+        currentAssignmentId: { type: integer, nullable: true }
+        currentUnitId: { type: string, nullable: true }
+        currentHolderName: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+      required: [id, serial, status]
+
+    CreateFobBody:
+      type: object
+      properties:
+        serial: { type: string }
+        label: { type: string }
+        notes: { type: string }
+      required: [serial]
+
+    UpdateFobBody:
+      type: object
+      properties:
+        label: { type: string }
+        notes: { type: string }
+        status: { type: string, enum: [available, assigned, lost, retired] }
+
+    FobAssignment:
+      type: object
+      properties:
+        id: { type: integer }
+        fobId: { type: integer }
+        unitId: { type: string }
+        holderName: { type: string }
+        assignedAt: { type: string }
+        returnedAt: { type: string, nullable: true }
+        depositCents: { type: integer }
+        note: { type: string }
+      required: [id, fobId, unitId, holderName, assignedAt]
+
+    AssignFobBody:
+      type: object
+      properties:
+        unitId: { type: string }
+        holderName: { type: string }
+        depositCents: { type: integer }
+        note: { type: string }
+      required: [unitId, holderName]
+
+    PoolTag:
+      type: object
+      properties:

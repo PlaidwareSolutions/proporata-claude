@@ -1,0 +1,610 @@
+Build an actual  web app for a residential community and its HOA board
+
+The goal is to show how a 144-unit HOA with 25 buildings can digitize documents, track work orders, visualize property health, and prepare for future community management application integration like vantaca.com.
+
+This should look polished, professional, and client-ready.
+
+# Product Name: HOA Operations Hub
+
+# Target Customer
+
+An HOA community with:
+- 144 residential units
+- 25 buildings
+- Board members who need better continuity
+- Property manager involvement
+- Legacy paper records
+- Roof, insurance, and correspondence documentation needs
+
+
+# Initial Personas 
+1. Board Members (Decision Makers)
+Who they are:
+* HOA President, Treasurer, Secretary, Directors
+What they care about:
+* Big picture visibility
+* Costs, budgets, risk
+* Compliance and documentation
+* Vendor performance
+What they need in your app:
+* Dashboard (health of buildings, issues)
+* Reports (maintenance trends, costs)
+* Access to all documents
+* Approval workflows (big decisions)
+Reality check:
+They are not technical and don’t want complexity.
+If your UI confuses them, your product dies.
+
+2. Property Manager (Operational Backbone)
+Who they are:
+* External management company (like Vantaca users)
+* Handles day-to-day operations
+What they care about:
+* Efficiency
+* Communication with board
+* Vendor coordination
+* Documentation
+What they need:
+* Work order management
+* Document upload & organization
+* Communication logs
+* Reporting to HOA board
+Reality:
+They may resist your system if it creates extra work.
+Your system must reduce their workload or integrate with theirs.
+
+
+# Core Business Problems
+
+This should communicate that the system solves:
+
+1. Scattered paper files and lost documentation
+2. Loss of visibility when property managers change
+3. Manual folder creation and manual document tracking
+4. Reactive maintenance instead of proactive planning
+5. No easy way to see building/unit health
+6. No centralized history for roofs, insurance, work orders, or correspondence
+
+# Tech Stack
+
+Use:
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui components if available
+- Lucide icons
+- No authentication required at the moment 
+- We will do authentication and persona based authorization with roles and permissions later.
+
+The app should use PostgreSQL, Google Drive API for documents storage, and property manager APIs.
+
+# Design Style
+
+Use a clean, modern SaaS dashboard style.
+
+Design should feel:
+- Professional
+- Simple
+- HOA-board friendly
+- Easy for non-technical users
+- Not too flashy
+
+Use:
+- Sidebar navigation
+- Top header
+- Cards
+- Tables
+- Status badges
+- Red / Yellow / Green health indicators
+- Clean spacing
+- Responsive layout
+
+# Main Navigation
+
+Create sidebar navigation with:
+
+1. Dashboard
+2. Buildings
+3. Units
+4. Work Orders
+5. Documents
+6. Insurance
+7. Reports
+8. Settings
+
+# Data Requirements
+
+Create data from the attached spreadsheet for:
+- 25 buildings
+- 144 units
+- Each building has multiple units
+- Each unit should have:
+  - address
+  - building number
+  - roof status: Green, Yellow, or Red
+  - insurance status: Current, Expiring Soon, Missing
+  - open work order count
+  - latest activity date
+
+Use actual addresses as attached in the spreadsheet :
+
+Not all 144 need to be manually displayed on one screen, but data should support at least 144 total units.
+
+# Screen 0: Home
+
+Create a community home page with appropriate community related content.
+
+
+# Screen 1: Dashboard
+
+Create a dashboard homepage with:
+
+## Summary Cards
+- Total Units: 144
+- Buildings: 25
+- Open Work Orders
+- Urgent Issues
+- Missing Insurance Documents
+- Roofs Needing Attention
+
+## Property Health Overview
+Show a 25-building grid.
+Show a 25-building plat view as attached. Provide the ability to mark the correct location of the building number on the plat view in the settings page. 
+
+Each building tile should show:
+- Building number
+- Number of units
+- Health status color:
+  - Green = good
+  - Yellow = needs follow-up
+  - Red = urgent issue
+- Open work order count
+
+Clicking a building tile should navigate to that building detail page.
+
+## Recent Activity
+Show recent events like:
+- “Roof leak reported for 2828 Camelot Lane”
+- “Insurance declaration uploaded for 2803 Cambridge”
+- “Work order closed for Building 9”
+- “Correspondence added for 2832 Camelot Lane”
+
+## Main Message
+Somewhere on the dashboard include a simple value statement:
+
+“Centralized visibility across buildings, units, documents, insurance, and maintenance.”
+
+# Screen 2: Buildings List
+
+Create a Buildings page with:
+
+- Search bar
+- Filter by status: All, Green, Yellow, Red
+- Table or card grid of all 25 buildings
+
+Each building row/card should show:
+- Building number
+- Number of units
+- Overall health
+- Open work orders
+- Roof status summary
+- Insurance status summary
+- Button: View Building
+
+# Screen 3: Building Detail
+
+Create dynamic building detail page.
+
+Example route:
+`/buildings/[id]`
+
+Page should show:
+
+## Building Header
+- Building number
+- Overall status
+- Number of units
+- Open work orders
+- Last updated date
+
+## Unit List
+Show units in that building.
+
+Each unit row should show:
+- Address
+- Roof status
+- Insurance status
+- Open work orders
+- Last activity
+- Button: View Unit
+
+## Building Documents
+Show document categories:
+- Work Orders
+- Insurance
+- Correspondence
+- Roof Documents
+
+## Building Notes
+Add a small notes panel with sample text:
+“Building-level tracking helps the HOA understand roof conditions, insurance compliance, and maintenance history.”
+
+# Screen 4: Unit Detail
+
+Create dynamic unit detail page.
+
+Example route:
+`/units/[id]`
+
+Page should show:
+
+## Unit Header
+- Address
+- Building number
+- Roof status
+- Insurance status
+- Open work orders
+
+## Tabs
+Create tabs for:
+1. Overview
+2. Work Orders
+3. Insurance
+4. Correspondence
+5. Roof Documents
+
+## Overview Tab
+Show:
+- Unit summary
+- Current roof status
+- Insurance status
+- Open work orders
+- Last updated
+- Recent timeline
+
+## Work Orders Tab
+Show work order list for that unit.
+
+Columns:
+- Work order ID
+- Issue type
+- Priority
+- Status
+- Created date
+- Vendor
+- Button: View
+
+Add a “Create Work Order” button.
+
+## Insurance Tab
+Show:
+- Current declaration page status
+- Policy year
+- Expiration date
+- Uploaded document card
+- Button: Upload Insurance Document
+
+## Correspondence Tab
+Show:
+- Letters
+- Notices
+- Emails
+- Board communications
+
+## Roof Documents Tab
+Show:
+- Roof inspection reports
+- Repair estimates
+- Replacement history
+- Photos placeholder
+
+# Screen 5: Work Orders
+
+Create Work Orders page with:
+
+- Search
+- Filters:
+  - Status
+  - Priority
+  - Building
+  - Issue Type
+- Table of work orders
+
+Columns:
+- ID
+- Building
+- Unit address
+- Issue type
+- Priority
+- Status
+- Created date
+- Vendor
+- Last updated
+- Button: View
+
+Statuses:
+- New
+- In Progress
+- Waiting on Vendor
+- Completed
+- Closed
+
+Priorities:
+- Low
+- Medium
+- High
+- Urgent
+
+Issue types:
+- Roof Leak
+- Pool
+- Plumbing
+- Electrical
+- Exterior
+- Parking
+- General Maintenance
+
+# Screen 6: Work Order Detail
+
+Create work order detail page.
+
+Example route:
+`/work-orders/[id]`
+
+Show:
+- Work order title
+- Unit address
+- Building number
+- Priority
+- Status
+- Vendor
+- Created date
+- Last updated
+- Description
+- Photos placeholder
+- Attached documents placeholder
+- Timeline of updates
+- Resolution notes
+- Lessons learned field
+
+Example timeline:
+- Reported by board member
+- Vendor assigned
+- Inspection scheduled
+- Repair completed
+- Document uploaded
+
+Include a prominent section:
+“Historical work order data helps the board make proactive repair and budgeting decisions.”
+
+# Screen 7: Create Work Order
+
+Create a form page or modal.
+
+Fields:
+- Building
+- Unit
+- Issue Type
+- Priority
+- Description
+- Vendor
+- Upload photos placeholder
+- Upload documents placeholder
+
+Buttons:
+- Save Draft
+- Create Work Order
+
+Form does not need to save to a database. It can show a toast or confirmation message.
+
+# Screen 8: Documents
+
+Create Documents page with:
+
+## Folder-style View
+Show structure:
+
+01 Master Index and Dashboards  
+02 Units by Building  
+   - Building 01  
+      - 2803 Cambridge  
+         - Work Orders  
+         - Insurance  
+         - Correspondence  
+         - Roof Documents  
+      - 2804 Cambridge  
+   - Building 09  
+      - 2828 Camelot Lane  
+         - Work Orders  
+         - Insurance  
+         - Correspondence  
+         - Roof Documents  
+
+## Document Categories
+Show cards for:
+- Work Orders
+- Insurance
+- Correspondence
+- Roof Documents
+- Board Resolutions
+- Vendor Documents
+
+## Automation Message
+Add this message:
+
+“Folder structures can be automatically generated from the HOA master unit index, eliminating manual setup.”
+
+# Screen 9: Insurance
+
+Create Insurance page with:
+
+- Summary cards:
+  - Current
+  - Expiring Soon
+  - Missing
+- Table by unit:
+  - Unit address
+  - Building
+  - Status
+  - Policy year
+  - Expiration date
+  - Uploaded document
+  - Action needed
+
+Add visual warning badges for Missing and Expiring Soon.
+
+# Screen 10: Reports
+
+Create Reports page with simple visual cards/charts.
+
+Include:
+- Open work orders by category
+- Roof condition summary
+- Insurance compliance summary
+- Work orders by building
+- Monthly maintenance trend
+
+Use charts or progress bars.
+
+Do not make this overly complex.
+
+# Screen 11: Settings
+
+Create Settings page with:
+
+## HOA Profile
+- Community name
+- Number of units
+- Number of buildings
+- Property manager name
+
+## Document Structure Settings
+Allow display/edit of folder categories:
+- Work Orders
+- Insurance
+- Correspondence
+- Roof Documents
+
+## Future Integrations
+Show cards for:
+- Google Drive
+- Google Sheets
+- Property Manager Portal
+- Email Notifications
+- Resident Portal
+- Digital Board / QR Code Notices
+
+These should be shown as “Planned Integration” or “Coming Soon.”
+
+Sample user flow path: 
+
+Dashboard
+→ Click Building 09
+→ View units in Building 09
+→ Click 2828 Camelot Lane
+→ Open Work Orders tab
+→ Open Roof Leak work order
+→ Show detail page with timeline, documents, and lessons learned
+→ Go back to Dashboard
+→ Open Documents page
+→ Show automated folder structure
+
+# Important UX Details
+
+Use consistent color/status mapping:
+
+Green:
+- Good
+- Current
+- Completed
+
+Yellow:
+- Follow-up
+- Expiring Soon
+- In Progress
+
+Red:
+- Urgent
+- Missing
+- High risk
+
+Use clear microcopy:
+- “View Building”
+- “View Unit”
+- “Create Work Order”
+- “Upload Document”
+- “Sync from Property Manager”
+- “Generate Folder Structure”
+
+# Data Examples: Full data attached in the spreadsheet.
+
+## Building 09
+Status: Red
+Units:
+- 2828 Camelot Lane
+- 2830 Camelot Lane
+- 2832 Camelot Lane
+- 2834 Camelot Lane
+- 2836 Camelot Lane
+- 2838 Camelot Lane
+
+## Unit 2828 Camelot Lane
+Roof Status: Red
+Insurance Status: Current
+Open Work Orders: 1
+
+## Work Order
+Title: Roof leak reported after recent rain
+Unit: 2828 Camelot Lane
+Building: 09
+Priority: Urgent
+Status: Waiting on Vendor
+Vendor: ABC Roofing Services
+Description:
+“Resident reported active roof leak near upstairs ceiling after recent rain. Inspection requested. Photos and correspondence attached.”
+
+Timeline:
+1. Issue reported by board member
+2. Photos uploaded
+3. Vendor assigned
+4. Inspection scheduled
+5. Awaiting estimate
+
+Lessons Learned:
+“Recurring roof issues should be reviewed at the building level to support proactive replacement planning.”
+
+# Architecture Section
+
+Somewhere in the app, preferably Settings or Reports, include a simple architecture card:
+
+System Architecture:
+- Frontend: HOA dashboard and resident portal
+- Database: PostgreSQL for units, work orders, statuses, and metadata
+- Document Storage: Google Drive or cloud document storage
+- Integration Layer: community management portal sync
+- Automation: Scheduled imports, document routing, reminders
+- Analytics: Maintenance trends and property health reporting
+
+# Final Output
+
+The application should be:
+- Fully navigable
+- Visually polished
+- Built around the customer’s exact HOA use case
+
+
+Focus on:
+- Visibility
+- Document organization
+- Work order history
+- Insurance tracking
+- Proactive maintenance
+- Future integration readiness
+
+
+this is the actual community the application is for.
+Quail Valley Townhome Association
+2807 Yorktown Ln, Stafford, TX 77477
+(832) 987-1728
+https://www.google.com/maps/place/Quail+Valley+Townhome+Association/@29.5817919,-95.5490411,18z/data=!4m15!1m8!3m7!1s0x8640e8b33c65d189:0xe38e4bf5a8c8eb7c!2sQuail+Valley+Townhomes,+Missouri+City,+TX+77459!3b1!8m2!3d29.5817321!4d-95.5476191!16s%2Fg%2F1tgyx2qm!3m5!1s0x8640c1645bfcb5f1:0x61fb6d43816636a4!8m2!3d29.5816562!4d-95.5469987!16s%2Fg%2F1v4k6xb0?entry=ttu&g_ep=EgoyMDI2MDQyOS4wIKXMDSoASAFQAw%3D%3D
+
