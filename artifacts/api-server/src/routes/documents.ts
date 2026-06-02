@@ -454,8 +454,7 @@ router.delete("/documents/:id", requireManager, async (req, res) => {
 
   if (row.storageKey) {
     try {
-      const objectFile = await storage.getObjectEntityFile(row.storageKey);
-      await objectFile.delete();
+      await storage.deleteObject(row.storageKey);
     } catch (err) {
       req.log.warn({ err }, "Failed to delete object from storage");
     }
@@ -874,8 +873,7 @@ router.post("/documents/import-batches/:id/undo", requireManager, async (req, re
   for (const d of docRows) {
     if (d.storageKey) {
       try {
-        const file = await storage.getObjectEntityFile(d.storageKey);
-        await file.delete();
+        await storage.deleteObject(d.storageKey);
       } catch (err) {
         req.log.warn({ err, docId: d.id }, "Failed to delete object during batch undo");
       }

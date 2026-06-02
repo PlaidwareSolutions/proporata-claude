@@ -106,7 +106,8 @@ import {
   buildingSystemRepairsTable,
   buildingSystemDocumentsTable,
 } from "@workspace/db/schema";
-import { ObjectStorageService, objectStorageClient } from "./lib/objectStorage.js";
+import { objectStorageClient } from "./lib/objectStorage.js";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { buildPlaceholderPdf, buildDemoPdf } from "./lib/placeholderPdf.js";
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -147,42 +148,25 @@ function dateOnlyAhead(n: number): string {
 
 const log = (msg: string) => console.log(`[seed-demo] ${msg}`);
 
-let objectStorage: ObjectStorageService | null = null;
-function getObjectStorage(): ObjectStorageService | null {
-  if (objectStorage) return objectStorage;
-  try {
-    objectStorage = new ObjectStorageService();
-    return objectStorage;
-  } catch {
-    return null;
-  }
-}
-
 /**
- * Upload a PDF buffer to object storage and return its storage path.
- *
- * Fails loud if object storage isn't available — every seeded document MUST
- * have a real previewable PDF. Set SEED_DEMO_ALLOW_NO_STORAGE=1 to relax
- * during development without object storage configured.
+ * Upload a PDF buffer to R2 private storage and return its /objects/ path.
+ * Set SEED_DEMO_ALLOW_NO_STORAGE=1 to skip storage during dev without R2 configured.
  */
 async function uploadPdfToStorage(keyHint: string, buf: Buffer): Promise<string> {
-  const svc = getObjectStorage();
-  if (!svc) {
-    if (process.env.SEED_DEMO_ALLOW_NO_STORAGE === "1") return "";
-    throw new Error("Object storage is not configured. Set DEFAULT_OBJECT_STORAGE_BUCKET_ID + PRIVATE_OBJECT_DIR or SEED_DEMO_ALLOW_NO_STORAGE=1 to skip PDFs.");
+  if (process.env.SEED_DEMO_ALLOW_NO_STORAGE === "1") return "";
+  if (!process.env.R2_ENDPOINT || !process.env.R2_ACCESS_KEY_ID) {
+    throw new Error(
+      "R2 not configured. Set R2_ENDPOINT, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY " +
+        "or SEED_DEMO_ALLOW_NO_STORAGE=1 to skip PDFs.",
+    );
   }
-  const privateDir = svc.getPrivateObjectDir();
   const safeKey = keyHint.replace(/[^a-zA-Z0-9._-]/g, "_");
-  const objectId = `demo/${safeKey}.pdf`;
-  const fullPath = privateDir.endsWith("/") ? `${privateDir}${objectId}` : `${privateDir}/${objectId}`;
-  const stripped = fullPath.startsWith("/") ? fullPath.slice(1) : fullPath;
-  const idx = stripped.indexOf("/");
-  if (idx < 0) throw new Error(`Invalid private object dir: ${privateDir}`);
-  const bucketName = stripped.slice(0, idx);
-  const objectName = stripped.slice(idx + 1);
-  const file = objectStorageClient.bucket(bucketName).file(objectName);
-  await file.save(buf, { contentType: "application/pdf", resumable: false });
-  return `/objects/${objectId}`;
+  const key = `demo/${safeKey}.pdf`;
+  const bucket = process.env.R2_PRIVATE_BUCKET ?? "proporata-private";
+  await objectStorageClient.send(
+    new PutObjectCommand({ Bucket: bucket, Key: key, Body: buf, ContentType: "application/pdf" }),
+  );
+  return `/objects/${key}`;
 }
 
 async function uploadPlaceholderPdf(keyHint: string, name: string, category: string, dateStr: string): Promise<string> {

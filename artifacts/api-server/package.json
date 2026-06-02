@@ -12,7 +12,8 @@
     "test": "node --import tsx --test \"src/**/*.test.ts\""
   },
   "dependencies": {
-    "@google-cloud/storage": "^7.19.0",
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/s3-request-presigner": "^3.0.0",
     "@types/archiver": "^7.0.0",
     "@types/ws": "^8.18.1",
     "@workspace/api-zod": "workspace:*",

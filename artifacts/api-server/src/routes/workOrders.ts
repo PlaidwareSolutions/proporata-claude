@@ -787,8 +787,7 @@ router.delete("/work-orders/:id/attachments/:attId", requireManager, async (req,
 
   if (att.storageKey) {
     try {
-      const file = await storage.getObjectEntityFile(att.storageKey);
-      await file.delete();
+      await storage.deleteObject(att.storageKey);
     } catch (err) {
       req.log.warn({ err }, "Failed to delete attachment object from storage");
     }

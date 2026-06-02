@@ -156,9 +156,7 @@ async function processJob(
       bytes = prefetched.bytes;
     } else {
       try {
-        const file = await storage.getObjectEntityFile(job.storageKey);
-        const [buf] = await file.download();
-        bytes = buf;
+        bytes = await storage.downloadObjectToBuffer(job.storageKey);
       } catch (err) {
         throw new Error(`Could not download object: ${(err as Error).message}`);
       }
@@ -251,9 +249,7 @@ export async function tickOcrScheduler(): Promise<void> {
 
       let bytes: Buffer;
       try {
-        const file = await storage.getObjectEntityFile(cand.storageKey);
-        const [buf] = await file.download();
-        bytes = buf;
+        bytes = await storage.downloadObjectToBuffer(cand.storageKey);
       } catch (err) {
         logger.warn({ err, jobId: cand.id }, "OCR preflight download failed");
         continue;
